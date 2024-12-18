@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:notebook2/main.dart';
 import 'package:notebook2/provider/note_provider.dart';
+import 'package:notebook2/screens.dart/addnote.dart';
 import 'package:notebook2/widgets/note_tile.dart';
 import 'package:provider/provider.dart';
-
+import 'addnote.dart';
 import '../models/note_model.dart';
+import 'editnote.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -13,10 +14,8 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController subtitleController = TextEditingController();
 
+class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<NoteProvider>(context);
@@ -24,55 +23,34 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notes"),
+        elevation: 0,
+        backgroundColor: Colors.grey,
       ),
       body: data.notes.isEmpty
-          ? const Center(child: Text("No notes available"))
+          ? const Center(child: Text("No note available"))
           : ListView.builder(
               itemCount: data.notes.length,
               itemBuilder: (context, index) {
                 return NoteTile(
+                  index: index,
                   note: data.notes[index],
+                  onRemove: () => data.deleteNote(index),
                 );
               },
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text("Add Note"),
-                content: Column(
-                  children: [
-                    TextField(
-                      controller: titleController,
-                      decoration: const InputDecoration(labelText: "Title"),
-                    ),
-                    TextField(
-                      controller: subtitleController,
-                      decoration: const InputDecoration(labelText: "Subtitle"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Note note = Note(
-                          title: titleController.text,
-                          subtitle: subtitleController.text,
-                        );
-                        data.addNote(note); // Add the note via provider
-                        Navigator.pop(context);
-                        titleController.clear();
-                        subtitleController.clear();
-                      },
-                      child: const Text("Add"),
-                    ),
-                  ],
-                ),
-              );
+    floatingActionButton: FloatingActionButton(
+      backgroundColor: Colors.grey,
+      onPressed: (){
+        Navigator.push(
+          context, 
+          MaterialPageRoute(
+            builder: (context){
+              return AddNote();
             },
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+            ),);
+      },
+      child: const Icon(Icons.add, color: Colors.black,),
+      ),        
     );
   }
 }

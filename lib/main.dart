@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:notebook2/models/note_model.dart';
 import 'package:notebook2/provider/note_provider.dart';
@@ -11,7 +13,6 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(NoteAdapter());
   await Hive.openBox<Note>('noteBox');
-
   runApp(
     MultiProvider(
       providers: [
