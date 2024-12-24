@@ -9,12 +9,17 @@ class Note extends HiveObject{
 
   @HiveField(1)
   String? subtitle; 
-
-  @HiveField(2)
-  String? note;
   
-  @HiveField(3)
+  @HiveField(2)
   DateTime? date;
   
-  Note({required this.title, required this.subtitle, this.note, this.date});
+  Note({required this.title, required this.subtitle, this.date});
+  Note copyWith({String? title, String? subtitle, DateTime? date}){
+    return Note(
+      title: title ?? this.subtitle, 
+      subtitle: subtitle ?? this.subtitle,
+      date: date
+      );
+  }
+  
 }

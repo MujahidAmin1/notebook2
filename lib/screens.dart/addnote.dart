@@ -5,13 +5,26 @@ import 'package:provider/provider.dart';
 
 import '../models/note_model.dart';
 
-TextEditingController titleController = TextEditingController();
-TextEditingController subtitleController = TextEditingController();
-class AddNote extends StatelessWidget {
+late TextEditingController titleController;
+late TextEditingController subtitleController;
+class AddNote extends StatefulWidget {
   final Note? note;
   const AddNote({super.key, this.note});
+
+  @override
+  State<AddNote> createState() => _AddNoteState();
+}
+
+class _AddNoteState extends State<AddNote> {
+    @override
+    void initState(){
+      titleController = TextEditingController();
+      subtitleController = TextEditingController();
+      super.initState();
+    }
   @override
   Widget build(BuildContext context) {
+  
     var data = Provider.of<NoteProvider>(context);
     return Scaffold(
         appBar: AppBar(

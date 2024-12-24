@@ -31,10 +31,23 @@ class _MainScreenState extends State<MainScreen> {
           : ListView.builder(
               itemCount: data.notes.length,
               itemBuilder: (context, index) {
-                return NoteTile(
-                  index: index,
-                  note: data.notes[index],
-                  onRemove: () => data.deleteNote(index),
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context){
+                          return EditNote(
+                            note: data.notes[index],
+                            index: index,
+                            );
+                        },),);
+                  },
+                  child: NoteTile(
+                    index: index,
+                    note: data.notes[index],
+                    onRemove: () => data.deleteNote(index),
+                  ),
                 );
               },
             ),
